@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
+import { demoStore } from '../lib/demoStore'
 
 interface State<T> {
   rows: T[]
@@ -23,9 +24,12 @@ export function useRealtimeTable<T extends { id: string | number }>(
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    // Mode démo : lire et s'abonner au store en mémoire.
     if (!supabase) {
+      const sync = () => setRows(demoStore.getRows<T>(table, orderBy))
+      sync()
       setLoading(false)
-      return
+      return demoStore.subscribe(sync)
     }
     let cancelled = false
 

@@ -9,3 +9,6 @@ dist-ssr
 *.log
 .vite
 *.tsbuildinfo
+
+# Script de capture local (chemin spécifique au conteneur)
+/scripts/screenshot.mjs

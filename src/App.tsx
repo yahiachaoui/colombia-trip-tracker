@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { isSupabaseConfigured } from './lib/supabase'
+import { isDemo } from './lib/demoStore'
 import type { Activite, Config, Depense, Jour, Personne, Tache } from './lib/types'
 import { useIdentity } from './hooks/useIdentity'
 import { useRealtimeTable } from './hooks/useRealtimeTable'
 import { BottomNav, type Tab } from './components/BottomNav'
+import { DemoBanner } from './components/DemoBanner'
 import { AddTaskSheet } from './components/AddTaskSheet'
 import { AddExpenseSheet } from './components/AddExpenseSheet'
 import { AddDaySheet } from './components/AddDaySheet'
@@ -25,11 +26,6 @@ const LIBELLES_FAB: Record<Tab, string> = {
 }
 
 export default function App() {
-  if (!isSupabaseConfigured) return <ConfigNotice />
-  return <AppReady />
-}
-
-function AppReady() {
   const { personneId, choisir, oublier } = useIdentity()
   const [tab, setTab] = useState<Tab>('espace')
   const [adding, setAdding] = useState(false)
@@ -46,16 +42,20 @@ function AppReady() {
   // Pas (encore) d'identité valide → écran de sélection du nom.
   if (!moi) {
     return (
-      <SelectName
-        personnes={personnes.rows}
-        loading={personnes.loading}
-        onSelect={choisir}
-      />
+      <>
+        {isDemo && <DemoBanner />}
+        <SelectName
+          personnes={personnes.rows}
+          loading={personnes.loading}
+          onSelect={choisir}
+        />
+      </>
     )
   }
 
   return (
     <div className="app">
+      {isDemo && <DemoBanner />}
       <header className="app-header">
         <div>
           <h1>{TITRES[tab]}</h1>
@@ -112,35 +112,6 @@ function AppReady() {
           onClose={() => setAdding(false)}
         />
       )}
-    </div>
-  )
-}
-
-function ConfigNotice() {
-  return (
-    <div className="app">
-      <header className="app-header">
-        <div>
-          <h1>Voyage Colombie 🇨🇴</h1>
-          <div className="subtitle">Configuration requise</div>
-        </div>
-      </header>
-      <div className="notice">
-        <p>
-          La connexion à Supabase n'est pas configurée. Crée un fichier{' '}
-          <code>.env.local</code> (en local) ou ajoute ces variables d'environnement
-          sur Vercel/Netlify :
-        </p>
-        <p>
-          <code>VITE_SUPABASE_URL</code>
-          <br />
-          <code>VITE_SUPABASE_ANON_KEY</code>
-        </p>
-        <p>
-          Puis exécute <code>supabase/schema.sql</code> dans le SQL Editor de ton
-          projet Supabase. Détails dans le <code>README.md</code>.
-        </p>
-      </div>
     </div>
   )
 }
