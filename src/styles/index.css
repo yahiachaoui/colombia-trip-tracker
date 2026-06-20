@@ -1,0 +1,576 @@
+:root {
+  --accent: #0fb5a5;
+  --accent-dark: #0a8d80;
+  --accent-soft: #e6f7f5;
+
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --text: #1a2b29;
+  --text-soft: #6b7c79;
+  --line: #eef1f0;
+  --line-strong: #e0e5e3;
+  --danger: #e2574c;
+
+  --radius: 14px;
+  --radius-sm: 10px;
+  --maxw: 480px;
+  --nav-h: 64px;
+
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: #f6f8f7;
+}
+
+#root {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  background: var(--bg);
+  min-height: 100vh;
+  min-height: 100dvh;
+  position: relative;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.04);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input,
+select {
+  font-family: inherit;
+  font-size: 16px; /* évite le zoom auto iOS */
+}
+
+a {
+  color: var(--accent-dark);
+}
+
+/* ---------- Layout ---------- */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  padding: 18px 20px 12px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.app-header h1 {
+  font-size: 19px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.app-header .subtitle {
+  font-size: 12px;
+  color: var(--text-soft);
+  margin-top: 2px;
+}
+
+.identity-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+  border: none;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.content {
+  flex: 1;
+  padding: 16px 20px calc(var(--nav-h) + 90px);
+}
+
+/* ---------- Sections ---------- */
+.section {
+  margin-bottom: 28px;
+}
+
+.section-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-soft);
+  margin: 0 0 10px;
+}
+
+.empty {
+  color: var(--text-soft);
+  font-size: 14px;
+  padding: 14px 2px;
+}
+
+/* ---------- Cards / rows ---------- */
+.card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.row-title {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.row-title.done {
+  color: var(--text-soft);
+  text-decoration: line-through;
+}
+
+.row-meta {
+  font-size: 12px;
+  color: var(--text-soft);
+  margin-top: 3px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.row-link {
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ---------- Checkbox (tap target) ---------- */
+.check {
+  appearance: none;
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--line-strong);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  transition: all 0.12s ease;
+}
+
+.check:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.check:checked::after {
+  content: '';
+  width: 7px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg) translateY(-1px);
+}
+
+/* ---------- Badges / chips ---------- */
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+}
+
+.badge.muted {
+  background: #f1f3f2;
+  color: var(--text-soft);
+}
+
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin-bottom: 16px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chip {
+  flex: 0 0 auto;
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  color: var(--text-soft);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.chip.active {
+  background: var(--text);
+  border-color: var(--text);
+  color: white;
+}
+
+/* ---------- Budget summary ---------- */
+.summary {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 18px;
+  background: linear-gradient(180deg, var(--accent-soft), #ffffff);
+}
+
+.summary-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent-dark);
+}
+
+.summary-total {
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 4px 0 2px;
+}
+
+.summary-sub {
+  font-size: 14px;
+  color: var(--text-soft);
+}
+
+.summary-sub strong {
+  color: var(--text);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 13px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  min-height: 48px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  width: 100%;
+}
+
+.btn-primary:active {
+  background: var(--accent-dark);
+}
+
+.btn-ghost {
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  width: 100%;
+}
+
+.btn-tricount {
+  background: var(--text);
+  color: white;
+  width: 100%;
+  text-decoration: none;
+  margin-top: 6px;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--accent-dark);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 0;
+}
+
+.icon-del {
+  background: none;
+  border: none;
+  color: var(--text-soft);
+  font-size: 18px;
+  line-height: 1;
+  padding: 6px;
+}
+
+/* ---------- Floating action button ---------- */
+.fab {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(var(--nav-h) + 16px);
+  z-index: 20;
+  width: min(var(--maxw), 100%);
+  padding: 0 20px;
+  pointer-events: none;
+}
+
+.fab .btn {
+  pointer-events: auto;
+  box-shadow: 0 8px 24px rgba(15, 181, 165, 0.35);
+}
+
+/* ---------- Bottom nav ---------- */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(var(--maxw), 100%);
+  height: var(--nav-h);
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  display: flex;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 30;
+}
+
+.nav-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: var(--text-soft);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.nav-btn .nav-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.nav-btn.active {
+  color: var(--accent-dark);
+}
+
+/* ---------- Sheet (modal bas d'écran) ---------- */
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 30, 28, 0.4);
+  z-index: 40;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.sheet {
+  width: 100%;
+  max-width: var(--maxw);
+  background: var(--bg);
+  border-radius: 20px 20px 0 0;
+  padding: 8px 20px calc(24px + env(safe-area-inset-bottom));
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.sheet-handle {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line-strong);
+  margin: 8px auto 16px;
+}
+
+.sheet h2 {
+  font-size: 18px;
+  margin: 0 0 16px;
+}
+
+/* ---------- Form fields ---------- */
+.field {
+  margin-bottom: 14px;
+}
+
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-soft);
+  margin-bottom: 6px;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 12px 13px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.seg {
+  display: flex;
+  gap: 8px;
+}
+
+.seg button {
+  flex: 1;
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  color: var(--text-soft);
+  border-radius: var(--radius-sm);
+  padding: 11px 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.seg button.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+}
+
+/* ---------- Select name screen ---------- */
+.center-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px 24px;
+}
+
+.brand {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.brand .flag {
+  font-size: 40px;
+}
+
+.brand h1 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 8px 0 4px;
+}
+
+.brand p {
+  color: var(--text-soft);
+  font-size: 14px;
+  margin: 0;
+}
+
+.name-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.name-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid var(--line-strong);
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  text-align: left;
+}
+
+.name-btn:active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.notice {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin: 24px 20px;
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+
+.notice code {
+  background: #f1f3f2;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--text);
+}
