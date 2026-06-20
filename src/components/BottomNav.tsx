@@ -1,27 +1,29 @@
-export type Tab = 'espace' | 'budget'
+export type Tab = 'espace' | 'programme' | 'budget'
 
 interface Props {
   active: Tab
   onChange: (tab: Tab) => void
 }
 
+const TABS: { value: Tab; icon: string; label: string }[] = [
+  { value: 'espace', icon: '✦', label: 'Mon espace' },
+  { value: 'programme', icon: '🗺', label: 'Programme' },
+  { value: 'budget', icon: '€', label: 'Budget' },
+]
+
 export function BottomNav({ active, onChange }: Props) {
   return (
     <nav className="bottom-nav">
-      <button
-        className={`nav-btn ${active === 'espace' ? 'active' : ''}`}
-        onClick={() => onChange('espace')}
-      >
-        <span className="nav-icon">✦</span>
-        Mon espace
-      </button>
-      <button
-        className={`nav-btn ${active === 'budget' ? 'active' : ''}`}
-        onClick={() => onChange('budget')}
-      >
-        <span className="nav-icon">€</span>
-        Budget
-      </button>
+      {TABS.map((t) => (
+        <button
+          key={t.value}
+          className={`nav-btn ${active === t.value ? 'active' : ''}`}
+          onClick={() => onChange(t.value)}
+        >
+          <span className="nav-icon">{t.icon}</span>
+          {t.label}
+        </button>
+      ))}
     </nav>
   )
 }

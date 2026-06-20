@@ -5,7 +5,7 @@ fait quoi (tâches), ce qu'il reste à réserver/payer, et le budget global. Don
 partagées et synchronisées en **temps réel** via Supabase. **Pas de login** : on
 choisit son nom au lancement.
 
-> Phase 1 (suivi pré-voyage). Le programme jour par jour viendra en phase 2.
+> Phase 1 : suivi pré-voyage (tâches + budget). Phase 2 : programme jour par jour.
 
 ## Stack
 
@@ -24,6 +24,9 @@ choisit son nom au lancement.
   Logements, Transport, Activités, Nourriture, Autre), et bouton
   « Régler les comptes sur Tricount → ». La réconciliation des comptes se fait dans
   Tricount, pas dans l'app.
+- **Programme** (phase 2) : itinéraire jour par jour à dates réelles. Chaque jour
+  (date + ville) contient des lignes typées à icône — Transport ✈️, Logement 🏨,
+  Visite 📍, Repas 🍽️, Autre — avec texte libre et lien optionnel.
 
 ## Mise en route locale
 
@@ -40,8 +43,10 @@ que de planter.
 
 1. Crée un projet sur [supabase.com](https://supabase.com) (free tier).
 2. Dans **SQL Editor**, exécute le contenu de [`supabase/schema.sql`](supabase/schema.sql).
-   Cela crée les tables (`personnes`, `taches`, `depenses`, `config`), active le
-   Realtime et les policies d'accès.
+   Cela crée toutes les tables (`personnes`, `taches`, `depenses`, `config`, `jours`,
+   `activites`), active le Realtime et les policies d'accès.
+   - *Déjà installé en phase 1 ?* Exécute seulement
+     [`supabase/phase2.sql`](supabase/phase2.sql) pour ajouter `jours` et `activites`.
 3. Dans **Project Settings → API**, récupère :
    - `Project URL` → `VITE_SUPABASE_URL`
    - `anon public` key → `VITE_SUPABASE_ANON_KEY`

@@ -1,14 +1,28 @@
 import { useState } from 'react'
 import { isSupabaseConfigured } from './lib/supabase'
-import type { Config, Depense, Personne, Tache } from './lib/types'
+import type { Activite, Config, Depense, Jour, Personne, Tache } from './lib/types'
 import { useIdentity } from './hooks/useIdentity'
 import { useRealtimeTable } from './hooks/useRealtimeTable'
 import { BottomNav, type Tab } from './components/BottomNav'
 import { AddTaskSheet } from './components/AddTaskSheet'
 import { AddExpenseSheet } from './components/AddExpenseSheet'
+import { AddDaySheet } from './components/AddDaySheet'
 import { SelectName } from './screens/SelectName'
 import { MonEspace } from './screens/MonEspace'
+import { Programme } from './screens/Programme'
 import { Budget } from './screens/Budget'
+
+const TITRES: Record<Tab, string> = {
+  espace: 'Mon espace',
+  programme: 'Programme',
+  budget: 'Budget',
+}
+
+const LIBELLES_FAB: Record<Tab, string> = {
+  espace: '+ Nouvelle tâche',
+  programme: '+ Nouveau jour',
+  budget: '+ Nouvelle dépense',
+}
 
 export default function App() {
   if (!isSupabaseConfigured) return <ConfigNotice />
@@ -24,6 +38,8 @@ function AppReady() {
   const taches = useRealtimeTable<Tache>('taches')
   const depenses = useRealtimeTable<Depense>('depenses')
   const config = useRealtimeTable<Config>('config', 'id')
+  const jours = useRealtimeTable<Jour>('jours', 'date')
+  const activites = useRealtimeTable<Activite>('activites')
 
   const moi = personnes.rows.find((p) => p.id === personneId) ?? null
 
@@ -42,7 +58,7 @@ function AppReady() {
     <div className="app">
       <header className="app-header">
         <div>
-          <h1>{tab === 'espace' ? 'Mon espace' : 'Budget'}</h1>
+          <h1>{TITRES[tab]}</h1>
           <div className="subtitle">Voyage Colombie 🇨🇴</div>
         </div>
         <button className="identity-chip" onClick={oublier} title="Changer de nom">
@@ -51,14 +67,18 @@ function AppReady() {
       </header>
 
       <main className="content">
-        {tab === 'espace' ? (
+        {tab === 'espace' && (
           <MonEspace
             moi={moi}
             personnes={personnes.rows}
             taches={taches.rows}
             depenses={depenses.rows}
           />
-        ) : (
+        )}
+        {tab === 'programme' && (
+          <Programme jours={jours.rows} activites={activites.rows} />
+        )}
+        {tab === 'budget' && (
           <Budget
             personnes={personnes.rows}
             depenses={depenses.rows}
@@ -69,7 +89,7 @@ function AppReady() {
 
       <div className="fab">
         <button className="btn btn-primary" onClick={() => setAdding(true)}>
-          {tab === 'espace' ? '+ Nouvelle tâche' : '+ Nouvelle dépense'}
+          {LIBELLES_FAB[tab]}
         </button>
       </div>
 
@@ -81,6 +101,9 @@ function AppReady() {
           personnes={personnes.rows}
           onClose={() => setAdding(false)}
         />
+      )}
+      {adding && tab === 'programme' && (
+        <AddDaySheet onClose={() => setAdding(false)} />
       )}
       {adding && tab === 'budget' && (
         <AddExpenseSheet

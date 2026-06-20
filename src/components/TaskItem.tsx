@@ -1,15 +1,11 @@
 import type { Tache } from '../lib/types'
 import { basculerTacheFaite, supprimerTache } from '../data/taches'
+import { formatDateCourt } from '../lib/dates'
 
 interface Props {
   tache: Tache
   /** Nom à afficher en méta (ex. assigné pour une tâche collective). */
   assigneNom?: string | null
-}
-
-function formatDate(iso: string): string {
-  const d = new Date(iso + 'T00:00:00')
-  return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })
 }
 
 export function TaskItem({ tache, assigneNom }: Props) {
@@ -27,7 +23,7 @@ export function TaskItem({ tache, assigneNom }: Props) {
         {(tache.echeance || assigneNom || tache.lien) && (
           <div className="row-meta">
             {assigneNom && <span>{assigneNom}</span>}
-            {tache.echeance && <span>⏱ {formatDate(tache.echeance)}</span>}
+            {tache.echeance && <span>⏱ {formatDateCourt(tache.echeance)}</span>}
             {tache.lien && (
               <a
                 className="row-link"
