@@ -7,6 +7,10 @@ choisit son nom au lancement.
 
 > Phase 1 : suivi pré-voyage (tâches + budget). Phase 2 : programme jour par jour.
 
+**🔎 Démo en ligne :** https://yahiachaoui.github.io/colombia-trip-tracker/
+*(aperçu en **mode démo** avec données d'exemple, non partagées — branche Supabase
+pour le vrai usage collaboratif, voir plus bas.)*
+
 ## Stack
 
 - **Vite + React + TypeScript**
