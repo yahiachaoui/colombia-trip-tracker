@@ -30,6 +30,9 @@ jobs:
         env:
           VITE_BASE: /colombia-trip-tracker/
       - uses: actions/configure-pages@v5
+        with:
+          # Active automatiquement GitHub Pages (source = Actions) au 1er run.
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
